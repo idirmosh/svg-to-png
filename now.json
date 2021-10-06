@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "name": "svg-to-image-proxy",
+  "build": {
+    "env": {
+      "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": "true"
+    }
+  },
+  "alias": "shields-raster-staging.now.sh",
+  "env": {
+    "BASE_URL": "https://img.shields.io"
+  },
+  "builds": [
+    {
+      "src": "index.js",
+      "use": "@now/node",
+      "config": { "maxLambdaSize": "40mb" }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "status": 301,
+      "headers": { "Location": "https://shields.io/" }
+    },
+    { "src": "/favicon.ico", "status": 404 },
+    { "src": "/(.+)", "dest": "/index.js" }
+  ]
+}
